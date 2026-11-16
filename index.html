@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ladies Smart Tailor</title>
+<style>
+body{font-family:Arial;background:#fff5f8;color:#30202a;margin:0;padding:16px}
+header{background:#9c2764;color:white;padding:20px;border-radius:14px;text-align:center}
+h2{color:#9c2764}
+.card{background:white;padding:16px;border-radius:14px;margin:14px 0;box-shadow:0 2px 8px #ddd}
+input,select{width:100%;padding:12px;margin:7px 0;box-sizing:border-box;border:1px solid #ccc;border-radius:8px;font-size:16px}
+button{background:#a42c6b;color:white;padding:13px;border:0;border-radius:9px;width:100%;font-size:17px;margin-top:10px}
+.result{background:#fce4ef;padding:12px;border-radius:10px;margin-top:10px}
+svg{width:100%;max-height:350px}
+a{color:#9c2764}
+</style>
+</head>
+<body>
+<header>
+<h1>👗 Ladies Smart Tailor</h1>
+<p>नाप से कटिंग पैटर्न तैयार करें</p>
+</header>
+
+<div class="card">
+<h2>कपड़ा चुनें</h2>
+<select id="garment">
+<option value="ब्लाउज">ब्लाउज</option>
+<option value="सूट">सलवार सूट</option>
+<option value="पेटीकोट">पेटीकोट</option>
+</select>
+<h2>अपनी नाप भरें (इंच)</h2>
+<label>छाती (Bust)</label>
+<input id="bust" type="number" placeholder="जैसे 36">
+<label>कमर (Waist)</label>
+<input id="waist" type="number" placeholder="जैसे 30">
+<label>कंधा (Shoulder)</label>
+<input id="shoulder" type="number" placeholder="जैसे 14">
+<label>कपड़े की लंबाई</label>
+<input id="length" type="number" placeholder="जैसे 15">
+<label>बांह की लंबाई</label>
+<input id="sleeve" type="number" placeholder="जैसे 10">
+<button onclick="calculate()">कटिंग पैटर्न बनाएं</button>
+</div>
+
+<div class="card" id="output" style="display:none">
+<h2>✂️ कटिंग की नाप</h2>
+<div id="measurements" class="result"></div>
+<h2>कटिंग का चित्र</h2>
+<svg viewBox="0 0 300 330">
+<path d="M65 35 L235 35 L235 280 L65 280 Z"
+fill="#fce4ef" stroke="#a42c6b" stroke-width="3"/>
+<path d="M65 35 Q150 75 235 35"
+fill="none" stroke="#a42c6b" stroke-width="2"/>
+<path d="M65 35 L65 280 M235 35 L235 280"
+stroke="#555" stroke-dasharray="5,4"/>
+<text x="150" y="155" text-anchor="middle" font-size="15">कपड़े का पैटर्न</text>
+<text x="150" y="175" text-anchor="middle" font-size="12">कटिंग लाइन</text>
+</svg>
+<p>यह शुरुआती माप-आधारित चित्र है, पूरी सिलाई की तकनीकी ड्राफ्टिंग नहीं। असली कपड़े पर काटने से पहले नाप और फिटिंग जाँचें।</p>
+</div>
+
+<div class="card">
+<h2>🎥 सिलाई और कटिंग वीडियो</h2>
+<a href="https://www.youtube.com/results?search_query=ladies+blouse+cutting+and+stitching+hindi" target="_blank">ब्लाउज कटिंग वीडियो देखें</a><br><br>
+<a href="https://www.youtube.com/results?search_query=salwar+suit+cutting+stitching+hindi" target="_blank">सलवार सूट वीडियो देखें</a>
+</div>
+
+<script>
+function calculate(){
+let b=Number(document.getElementById('bust').value);
+let w=Number(document.getElementById('waist').value);
+let s=Number(document.getElementById('shoulder').value);
+let l=Number(document.getElementById('length').value);
+let sl=Number(document.getElementById('sleeve').value);
+let g=document.getElementById('garment').value;
+if(!b||!w||!s||!l||!sl){
+alert('कृपया सभी नाप भरें');return;
+}
+let quarter=b/4+1;
+let waistQuarter=w/4+1;
+let armhole=b/6+1.5;
+document.getElementById('measurements').innerHTML=
+'<b>कपड़ा:</b> '+g+'<br>'+
+'छाती का चौथाई हिस्सा + ढील: '+quarter.toFixed(2)+' इंच<br>'+
+'कमर का चौथाई हिस्सा + ढील: '+waistQuarter.toFixed(2)+' इंच<br>'+
+'शोल्डर: '+s+' इंच<br>'+
+'आर्महोल की शुरुआती गहराई: '+armhole.toFixed(2)+' इंच<br>'+
+'लंबाई: '+l+' इंच<br>'+
+'बांह की लंबाई: '+sl+' इंच';
+document.getElementById('output').style.display='block';
+}
+</script>
+</body>
+</html>
