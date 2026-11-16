@@ -1,237 +1,31 @@
-
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ladies Smart Tailor</title>
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#9c2764"><title>Ladies Smart Tailor</title>
 <style>
-body{font-family:Arial;background:#fff5f8;color:#30202a;margin:0;padding:16px}
-header{background:#9c2764;color:white;padding:20px;border-radius:14px;text-align:center}
-h2{color:#9c2764}
-.card{background:white;padding:16px;border-radius:14px;margin:14px 0;box-shadow:0 2px 8px #ddd}
-input,select{width:100%;padding:12px;margin:7px 0;box-sizing:border-box;border:1px solid #ccc;border-radius:8px;font-size:16px}
-button{background:#a42c6b;color:white;padding:13px;border:0;border-radius:9px;width:100%;font-size:17px;margin-top:10px}
-.result{background:#fce4ef;padding:12px;border-radius:10px;margin-top:10px}
-svg{width:100%;max-height:350px}
-a{color:#9c2764}
-</style>
-</head>
-<body>
-<header>
-<h1>👗 Ladies Smart Tailor</h1>
-<p>नाप से कटिंग पैटर्न तैयार करें</p>
-</header>
-
-<div class="card">
-<h2>कपड़ा चुनें</h2>
-<select id="garment">
-<option value="ब्लाउज">ब्लाउज</option>
-<option value="सूट">सलवार सूट</option>
-<option value="पेटीकोट">पेटीकोट</option>
-</select>
-<h2>अपनी नाप भरें (इंच)</h2>
-<label>छाती (Bust)</label>
-<input id="bust" type="number" placeholder="जैसे 36">
-<label>कमर (Waist)</label>
-<input id="waist" type="number" placeholder="जैसे 30">
-<label>कंधा (Shoulder)</label>
-<input id="shoulder" type="number" placeholder="जैसे 14">
-<label>कपड़े की लंबाई</label>
-<input id="length" type="number" placeholder="जैसे 15">
-<label>बांह की लंबाई</label>
-<input id="sleeve" type="number" placeholder="जैसे 10">
-<button onclick="calculate()">कटिंग पैटर्न बनाएं</button>
-</div>
-
-<div class="card" id="output" style="display:none">
-<h2>✂️ कटिंग की नाप</h2>
-<div id="measurements" class="result"></div>
-<h2>कटिंग का चित्र</h2>
-<svg viewBox="0 0 300 330">
-<path d="M65 35 L235 35 L235 280 L65 280 Z"
-fill="#fce4ef" stroke="#a42c6b" stroke-width="3"/>
-<path d="M65 35 Q150 75 235 35"
-fill="none" stroke="#a42c6b" stroke-width="2"/>
-<path d="M65 35 L65 280 M235 35 L235 280"
-stroke="#555" stroke-dasharray="5,4"/>
-<text x="150" y="155" text-anchor="middle" font-size="15">कपड़े का पैटर्न</text>
-<text x="150" y="175" text-anchor="middle" font-size="12">कटिंग लाइन</text>
-</svg>
-<p>यह शुरुआती माप-आधारित चित्र है, पूरी सिलाई की तकनीकी ड्राफ्टिंग नहीं। असली कपड़े पर काटने से पहले नाप और फिटिंग जाँचें।</p>
-</div>
-
-<div class="card">
-<h2>🎥 सिलाई और कटिंग वीडियो</h2>
-<a href="https://www.youtube.com/results?search_query=ladies+blouse+cutting+and+stitching+hindi" target="_blank">ब्लाउज कटिंग वीडियो देखें</a><br><br>
-<a href="https://www.youtube.com/results?search_query=salwar+suit+cutting+stitching+hindi" target="_blank">सलवार सूट वीडियो देखें</a>
-</div>
-
+*{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#fff5f8;color:#30202a;margin:0;padding:14px;max-width:850px;margin:auto}header{background:#9c2764;color:white;padding:20px;border-radius:16px;text-align:center}header h1{margin:0 0 8px}.card{background:white;padding:16px;border-radius:14px;margin:14px 0;box-shadow:0 2px 8px #e7d6df}h2{color:#9c2764;font-size:20px;margin-top:0}label{display:block;font-weight:600;margin-top:12px}input,select{width:100%;padding:12px;margin-top:6px;border:1px solid #cdbbc4;border-radius:9px;font-size:16px;background:white}button{background:#a42c6b;color:white;padding:13px;border:0;border-radius:9px;width:100%;font-size:17px;margin-top:14px;font-weight:bold}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.hint,.small{font-size:13px;color:#695965;line-height:1.5}.result{background:#fce4ef;padding:13px;border-radius:10px;margin-top:12px;line-height:1.7}.diagram{width:100%;height:auto;max-height:430px;background:#fffafd;border:1px solid #f0d9e4;border-radius:10px;margin-top:10px}.pill{display:inline-block;background:#f8dce9;padding:5px 9px;border-radius:20px;font-size:13px;margin:3px}@media(max-width:480px){.grid{grid-template-columns:1fr}body{padding:10px}}
+</style></head><body>
+<header><h1>👗 Ladies Smart Tailor</h1><p>महिलाओं के कपड़ों की नाप और कटिंग सहायता</p></header>
+<section class="card"><h2>पेटीकोट कटिंग पैटर्न</h2><p class="hint">सभी नाप इंच में भरें। यह शुरुआती ड्राफ्टिंग गाइड है; कपड़ा काटने से पहले नाप और फिटिंग दोबारा जाँचें।</p>
+<label>पेटीकोट का प्रकार</label><select id="style"><option value="straight">सीधा पेटीकोट</option><option value="flare">घेरदार पेटीकोट</option></select>
+<div class="grid"><div><label for="waist">कमर (Waist)</label><input id="waist" type="number" min="1" step=".5" value="30"></div><div><label for="hip">हिप / सीट (Hip)</label><input id="hip" type="number" min="1" step=".5" value="40"></div><div><label for="length">लंबाई (Length)</label><input id="length" type="number" min="1" step=".5" value="38"></div><div><label for="hem">नीचे का घेरा (Hem)</label><input id="hem" type="number" min="1" step=".5" value="50"></div></div>
+<label for="allowance">सिलाई मार्जिन</label><select id="allowance"><option value="1">1 इंच</option><option value=".75">¾ इंच</option><option value=".5">½ इंच</option></select>
+<button id="make">कटिंग नाप और चित्र बनाएं</button><div id="output" class="result" aria-live="polite">नाप भरकर बटन दबाएँ।</div>
+<svg id="diagram" class="diagram" viewBox="0 0 340 330" role="img" aria-label="पेटीकोट कटिंग का माप वाला चित्र"></svg>
+<p class="small">चित्र अनुपात समझाने के लिए है, असली कपड़े पर स्केल ड्राइंग नहीं। कपड़े की चौड़ाई के अनुसार पैनल की संख्या बदल सकती है।</p></section>
+<section class="card"><h2>अगले कपड़े</h2><p><span class="pill">ब्लाउज</span><span class="pill">कुर्ती</span><span class="pill">सलवार</span><span class="pill">लहंगा</span></p><p class="hint">इनकी नाप और कटिंग शीट अगले अपडेट में जोड़ी जाएगी।</p></section>
 <script>
-function calculate(){
-let b=Number(document.getElementById('bust').value);
-let w=Number(document.getElementById('waist').value);
-let s=Number(document.getElementById('shoulder').value);
-let l=Number(document.getElementById('length').value);
-let sl=Number(document.getElementById('sleeve').value);
-let g=document.getElementById('garment').value;
-if(!b||!w||!s||!l||!sl){
-alert('कृपया सभी नाप भरें');return;
+const el=id=>document.getElementById(id), n=id=>Number(el(id).value), f=v=>Number(v.toFixed(2)).toString();
+function draw(l,hem,style){
+ const svg=el('diagram'), width=style==='straight'?150:195, x1=170-width/2, x2=170+width/2, top=45, bottom=280, hipY=125;
+ const path=style==='straight'?'M 145 '+top+' L 145 '+hipY+' L '+x1+' '+bottom+' L '+x2+' '+bottom+' L 195 '+hipY+' L 195 '+top+' Z':'M 145 '+top+' Q 140 115 '+x1+' '+bottom+' L '+x2+' '+bottom+' Q 200 115 195 '+top+' Z';
+ svg.innerHTML='<path d="'+path+'" fill="#f8dce9" stroke="#9c2764" stroke-width="2.5"/><text x="170" y="30" text-anchor="middle" font-size="11" fill="#54213d">ऊपर / कमर</text><text x="170" y="313" text-anchor="middle" font-size="12" fill="#54213d">नीचे का घेरा '+f(hem)+'"</text><text x="208" y="165" font-size="11" fill="#54213d" transform="rotate(90 208 165)">लंबाई '+f(l)+'"</text>';
 }
-let quarter=b/4+1;
-let waistQuarter=w/4+1;
-let armhole=b/6+1.5;
-document.getElementById('measurements').innerHTML=
-'<b>कपड़ा:</b> '+g+'<br>'+
-'छाती का चौथाई हिस्सा + ढील: '+quarter.toFixed(2)+' इंच<br>'+
-'कमर का चौथाई हिस्सा + ढील: '+waistQuarter.toFixed(2)+' इंच<br>'+
-'शोल्डर: '+s+' इंच<br>'+
-'आर्महोल की शुरुआती गहराई: '+armhole.toFixed(2)+' इंच<br>'+
-'लंबाई: '+l+' इंच<br>'+
-'बांह की लंबाई: '+sl+' इंच';
-document.getElementById('output').style.display='block';
+function make(){
+ const w=n('waist'),h=n('hip'),l=n('length'),hem=n('hem'),a=n('allowance'),style=el('style').value;
+ if([w,h,l,hem].some(v=>!Number.isFinite(v)||v<=0)){el('output').textContent='कृपया सभी नाप 0 से बड़ी संख्या में भरें।';return}
+ if(h<w||hem<w){el('output').textContent='हिप और नीचे के घेरे की नाप कमर से कम लग रही है। कृपया नाप जाँचें।';return}
+ const qw=h/4+a,qwst=w/4+a,qh=hem/4+a;
+ el('output').innerHTML='<b>'+(style==='straight'?'सीधा':'घेरदार')+' पेटीकोट — शुरुआती कटिंग गाइड</b><br>• कमर: '+f(qwst)+'" प्रति चौथाई (मार्जिन सहित)<br>• हिप: '+f(qw)+'" प्रति चौथाई (मार्जिन सहित)<br>• नीचे: '+f(qh)+'" प्रति चौथाई (मार्जिन सहित)<br>• कटिंग लंबाई: '+f(l+a)+'" (लंबाई + मार्जिन)<br><span class="small">सिलाई मार्जिन: '+f(a)+'"। कपड़े की चौड़ाई के अनुसार 2 या अधिक पैनल जोड़ने पड़ सकते हैं। कमर पर इलास्टिक/नाड़े के लिए अलग मोड़ रखें।</span>';
+ draw(l,hem,style);
 }
-</script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ladies Smart Tailor</title>
-<style>
-body{font-family:Arial;background:#fff1f6;margin:0;padding:15px;color:#333}
-header{background:#9c2764;color:white;text-align:center;padding:18px;border-radius:14px}
-.card{background:white;padding:16px;margin:14px 0;border-radius:13px}
-h2{color:#9c2764}
-input,select{width:100%;padding:12px;margin:7px 0;box-sizing:border-box;border:1px solid #ccc;border-radius:8px;font-size:16px}
-button{width:100%;padding:14px;background:#a32b6a;color:white;border:0;border-radius:9px;font-size:17px}
-#result{display:none}
-svg{width:100%;height:auto;background:#fffafd;border:1px solid #eee}
-</style>
-</head>
-<body>
-<header>
-<h1>👗 Ladies Smart Tailor</h1>
-<p>पेटीकोट कटिंग डिजाइन</p>
-</header>
-
-<div class="card">
-<h2>पेटीकोट का प्रकार</h2>
-<select id="type">
-<option value="straight">सीधा पेटीकोट</option>
-<option value="flare">घेरदार पेटीकोट</option>
-</select>
-
-<h2>अपनी नाप भरें (इंच)</h2>
-<label>कमर (Waist)</label>
-<input id="waist" type="number" step="0.5" placeholder="जैसे 30">
-
-<label>हिप (Hip)</label>
-<input id="hip" type="number" step="0.5" placeholder="जैसे 40">
-
-<label>पेटीकोट लंबाई (Length)</label>
-<input id="length" type="number" step="0.5" placeholder="जैसे 36">
-
-<label>नीचे का पूरा घेरा (केवल घेरदार के लिए)</label>
-<input id="hem" type="number" step="0.5" placeholder="जैसे 100">
-
-<button onclick="makePattern()">कटिंग पैटर्न बनाएं ✂️</button>
-</div>
-
-<div class="card" id="result">
-<h2>आपका कटिंग पैटर्न</h2>
-<div id="details"></div>
-<svg id="drawing" viewBox="0 0 360 320"></svg>
-<p><b>ध्यान दें:</b> यह शुरुआती ड्राफ्टिंग पैटर्न है। कपड़ा काटने से पहले वास्तविक नाप, कपड़े की चौड़ाई और फिटिंग जाँचें।</p>
-</div>
-
-<div class="card">
-<h2>🎥 सिलाई वीडियो</h2>
-<a href="https://www.youtube.com/results?search_query=petticoat+cutting+stitching+hindi" target="_blank">पेटीकोट कटिंग और सिलाई वीडियो देखें</a>
-</div>
-
-<script>
-function makePattern(){
-const waist=Number(document.getElementById('waist').value);
-const hip=Number(document.getElementById('hip').value);
-const len=Number(document.getElementById('length').value);
-const hem=Number(document.getElementById('hem').value);
-const type=document.getElementById('type').value;
-
-if(!waist||!hip||!len||waist<=0||hip<=0||len<=0){
-alert('कमर, हिप और लंबाई सही भरें');return;
-}
-if(hip<waist){
-alert('हिप की नाप कमर से कम नहीं होनी चाहिए');return;
-}
-if(type==='flare'&&(!hem||hem<=hip)){
-alert('घेरदार पेटीकोट का नीचे का घेरा हिप से ज्यादा भरें');return;
-}
-
-const ease=2;
-const seam=1;
-const top=hip+ease;
-const height=len+2;
-let bottom, panels, cut;
-let title;
-
-if(type==='straight'){
-bottom=top;
-panels=2;
-cut='2 पैनल (आगे और पीछे)';
-title='सीधा पेटीकोट';
-}else{
-bottom=hem;
-panels=4;
-cut='4 अलग पैनल';
-title='घेरदार पेटीकोट';
-}
-
-const topPanel=top/panels;
-const bottomPanel=bottom/panels;
-const scale=220/Math.max(topPanel+4,bottomPanel+4);
-const h=Math.min(240,height*scale);
-const tw=topPanel*scale;
-const bw=bottomPanel*scale;
-const cx=180;
-const y=35;
-const leftTop=cx-tw/2;
-const rightTop=cx+tw/2;
-const leftBottom=cx-bw/2;
-const rightBottom=cx+bw/2;
-
-document.getElementById('details').innerHTML=
-'<p><b>डिजाइन:</b> '+title+'</p>'+
-'<p>कमर: '+waist+' इंच</p>'+
-'<p>हिप: '+hip+' इंच</p>'+
-'<p>ऊपरी कुल चौड़ाई (ढील सहित): '+top.toFixed(1)+' इंच</p>'+
-'<p>एक पैनल की ऊपर चौड़ाई: '+topPanel.toFixed(1)+' इंच</p>'+
-'<p>एक पैनल की नीचे चौड़ाई: '+bottomPanel.toFixed(1)+' इंच</p>'+
-'<p>लंबाई: '+len+' इंच</p>'+
-'<p>सिलाई मार्जिन: '+seam+' इंच (अलग से जोड़ें)</p>'+
-'<p><b>काटने के लिए:</b> '+cut+'</p>'+
-'<p>कमर के लिए इलास्टिक/नाड़ा अलग तैयार करें।</p>';
-
-document.getElementById('drawing').innerHTML=
-'<path d="M '+leftTop+' '+y+
-' L '+rightTop+' '+y+
-' L '+rightBottom+' '+(y+h)+
-' L '+leftBottom+' '+(y+h)+
-' Z" fill="#f8c5dc" stroke="#9c2764" stroke-width="3"/>'+
-'<path d="M '+leftTop+' '+y+' L '+rightTop+' '+y+
-'" stroke="#222" stroke-width="2"/>'+
-'<path d="M '+leftBottom+' '+(y+h)+' L '+rightBottom+' '+(y+h)+
-'" stroke="#222" stroke-width="2"/>'+
-'<text x="180" y="22" text-anchor="middle" font-size="12">ऊपरी चौड़ाई</text>'+
-'<text x="180" y="'+(y+h+20)+'" text-anchor="middle" font-size="12">नीचे की चौड़ाई</text>'+
-'<text x="180" y="'+(y+h/2)+'" text-anchor="middle" font-size="14">कटिंग पैनल</text>';
-
-document.getElementById('result').style.display='block';
-}
-</script>
-</body>
-</html>
-
+el('make').addEventListener('click',make);make();
+</script></body></html>
