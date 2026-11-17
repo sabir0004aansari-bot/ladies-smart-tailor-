@@ -9,6 +9,7 @@
 <select id="garment" onchange="drawFields()">
 <option value="blouse">ब्लाउज / Blouse</option><option value="kurti">कुर्ती / Kurti</option><option value="salwar">सलवार / Salwar</option><option value="suit">सलवार सूट / Suit</option><option value="palazzo">प्लाजो / Palazzo</option><option value="pants">पैंट / Pants</option><option value="petticoat">पेटीकोट / Petticoat</option></select>
 <h2 id="measure">अपनी नाप भरें (इंच)</h2><div id="fields" class="fields"></div>
+<div id="petticoatStyle" class="stylebox"><label id="styleLabel" for="skirtStyle">पेटीकोट स्टाइल</label><select id="skirtStyle"><option value="straight">सीधा / Straight</option><option value="flared">घेरदार / Flared</option></select></div>
 <button id="make" onclick="makeChart()">नाप का चार्ट बनाएं</button></section>
 <section class="card" id="output"><h2 id="resultTitle">आपकी नाप / Your measurements</h2><div id="details"></div><h2 id="sketchTitle">संदर्भ चित्र / Reference sketch</h2>
 <svg viewBox="0 0 320 260"><path id="shape" d="M110 25 L210 25 L250 230 L70 230 Z" fill="#f6c3da" stroke="#8d245e" stroke-width="3"/><text id="shapeText" x="160" y="130" text-anchor="middle" font-size="14" fill="#54213c">संदर्भ चित्र</text></svg>
