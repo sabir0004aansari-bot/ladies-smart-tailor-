@@ -1,0 +1,8 @@
+{
+  "appId": "com.sabir.ladiessmarttailor",
+  "appName": "Ladies Smart Tailor",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
