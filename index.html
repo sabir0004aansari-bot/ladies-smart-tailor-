@@ -12,7 +12,7 @@
 <div id="petticoatStyle" class="stylebox"><label id="styleLabel" for="skirtStyle">पेटीकोट स्टाइल</label><select id="skirtStyle"><option value="straight">सीधा / Straight</option><option value="flared">घेरदार / Flared</option></select></div>
 <button id="make" onclick="makeChart()">नाप का चार्ट बनाएं</button></section>
 <section class="card" id="output"><h2 id="resultTitle">आपकी नाप / Your measurements</h2><div id="details"></div><h2 id="sketchTitle">संदर्भ चित्र / Reference sketch</h2>
-<svg viewBox="0 0 320 260"><path id="shape" d="M110 25 L210 25 L250 230 L70 230 Z" fill="#f6c3da" stroke="#8d245e" stroke-width="3"/><text id="shapeText" x="160" y="130" text-anchor="middle" font-size="14" fill="#54213c">संदर्भ चित्र</text></svg>
+<svg viewBox="0 0 320 260"><path id="shape" d="M110 25 L210 25 L250 230 L70 230 Z" fill="#f6c3da" stroke="#8d245e" stroke-width="3"/><g id="patternGuides"></g><text id="shapeText" x="160" y="130" text-anchor="middle" font-size="12" fill="#54213c">संदर्भ चित्र</text></svg>
 <p class="note" id="caution">महत्वपूर्ण: यह अभी संदर्भ पैनल है, कपड़ा काटने का प्रमाणित पैटर्न नहीं। सही कटिंग के लिए कपड़े की चौड़ाई, सिलाई मार्जिन और पैनल/फोल्ड की जानकारी भी चाहिए। बिना दर्जी से जाँच कराए कपड़ा न काटें।</p></section>
 <section class="card"><h2 id="videos">🎥 सिलाई और कटिंग वीडियो</h2>
 <p><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=ladies+blouse+cutting+stitching+hindi">ब्लाउज / Blouse video</a></p>
@@ -35,22 +35,37 @@ function toggleLang(){en=!en;document.documentElement.lang=en?'en':'hi';document
 function makeChart(){let g=document.getElementById('garment').value,vals=[];for(let [id,hi,eng] of schema[g]){let raw=document.getElementById(id).value,n=Number(raw);if(!raw||!Number.isFinite(n)||n<=0){alert(en?'Please enter all measurements as positive numbers.':'कृपया सभी नाप शून्य से ज्यादा सही भरें।');return}vals.push({id,label:en?eng:hi,value:n})}document.getElementById('details').innerHTML=vals.map(({label,value})=>'<div class="line">'+label+': <b>'+value.toFixed(1)+' '+(en?'in':'इंच')+'</b></div>').join('');let paths={blouse:'M105 35 Q160 5 215 35 L245 110 L215 135 L215 230 L105 230 L105 135 L75 110 Z',kurti:'M115 25 L205 25 L250 230 L70 230 Z',salwar:'M110 25 L210 25 L225 230 L170 230 L160 105 L150 230 L95 230 Z',suit:'M115 25 L205 25 L250 230 L70 230 Z',palazzo:'M105 25 L215 25 L230 230 L170 230 L160 100 L150 230 L90 230 Z',pants:'M110 25 L210 25 L220 230 L170 230 L160 105 L150 230 L100 230 Z',petticoat:'M115 25 L205 25 L255 230 L65 230 Z'};if(g==='petticoat'){
  let v=Object.fromEntries(vals.map(({id,value})=>[id,value]));
  let flare=document.getElementById('skirtStyle').value==='flared';
- let hip=v.hip, hem=v.hem, waist=v.waist;
- let top= Math.max(42,Math.min(110,60*(waist/hip)));
- let bottom=flare?Math.max(125,Math.min(230,155*(hem/hip))):Math.max(90,Math.min(155,115*(hem/hip)));
- let leftTop=160-top/2,rightTop=160+top/2,leftBottom=160-bottom/2,rightBottom=160+bottom/2;
- let d='M '+leftTop+' 28 L '+rightTop+' 28 L '+rightBottom+' 230 L '+leftBottom+' 230 Z';
+ // The sketch is normalized for display only; these are not cutting dimensions.
+ let maxCirc=Math.max(v.waist,v.hip,v.hem);
+ let widthFor=n=>n/maxCirc*190;
+ let waistW=widthFor(v.waist), hipW=widthFor(v.hip), hemW=widthFor(v.hem);
+ let topY=20;
+ let heightPx=Math.max(70,Math.min(190,v.length*4));
+ let hipY=topY+heightPx*0.35; // visual guide only, not a drafting rule
+ let bottomY=topY+heightPx;
+ let leftWaist=160-waistW/2, rightWaist=160+waistW/2;
+ let leftHip=160-hipW/2, rightHip=160+hipW/2;
+ let leftHem=160-hemW/2, rightHem=160+hemW/2;
+ let midY=hipY+(bottomY-hipY)*0.52;
+ let d=flare
+  ? 'M '+leftWaist+' '+topY+' L '+rightWaist+' '+topY+' L '+rightHip+' '+hipY+' Q '+(rightHem+12)+' '+((hipY+bottomY)/2)+' '+rightHem+' '+bottomY+' L '+leftHem+' '+bottomY+' Q '+(leftHem-12)+' '+((hipY+bottomY)/2)+' '+leftHip+' '+hipY+' Z'
+  : 'M '+leftWaist+' '+topY+' L '+rightWaist+' '+topY+' L '+rightHip+' '+hipY+' L '+rightHem+' '+bottomY+' L '+leftHem+' '+bottomY+' L '+leftHip+' '+hipY+' Z';
  document.getElementById('shape').setAttribute('d',d);
- document.getElementById('shapeText').textContent=flare?(en?'Flared panel – reference':'घेरदार पैनल – संदर्भ'):(en?'Straight panel – reference':'सीधा पैनल – संदर्भ');
- let guide=flare?(en?'Hem circumference entered: '+hem+' in':'डाला गया नीचे का पूरा घेरा: '+hem+' इंच'):(en?'Straight style selected':'सीधा स्टाइल चुना गया');
+ document.getElementById('shapeText').setAttribute('y',midY);
+ document.getElementById('shapeText').textContent=en?'Reference only':'केवल संदर्भ';
+ document.getElementById('patternGuides').innerHTML=
+  '<line x1="'+leftHip+'" y1="'+hipY+'" x2="'+rightHip+'" y2="'+hipY+'" stroke="#8d245e" stroke-dasharray="4 3" stroke-width="1.5"/>'+
+  '<text x="160" y="'+(topY+13)+'" text-anchor="middle" font-size="10" fill="#54213c">'+(en?'Waist':'कमर')+' '+v.waist.toFixed(1)+'"</text>'+
+  '<text x="160" y="'+(hipY-5)+'" text-anchor="middle" font-size="10" fill="#54213c">'+(en?'Hip':'हिप')+' '+v.hip.toFixed(1)+'"</text>'+
+  '<text x="160" y="'+(bottomY-5)+'" text-anchor="middle" font-size="10" fill="#54213c">'+(en?'Hem':'घेरा')+' '+v.hem.toFixed(1)+'"</text>';
  const dims='<div class="line"><b>'+(en?'Style':'स्टाइल')+': '+(flare?(en?'Flared':'घेरदार'):(en?'Straight':'सीधा'))+'</b></div>'+
- '<div class="line">'+(en?'Waist':'कमर')+': '+waist.toFixed(1)+' in</div>'+
- '<div class="line">'+(en?'Hip':'हिप')+': '+hip.toFixed(1)+' in</div>'+
+ '<div class="line">'+(en?'Waist':'कमर')+': '+v.waist.toFixed(1)+' in</div>'+
+ '<div class="line">'+(en?'Hip':'हिप')+': '+v.hip.toFixed(1)+' in</div>'+
  '<div class="line">'+(en?'Length':'लंबाई')+': '+v.length.toFixed(1)+' in</div>'+
- '<div class="line">'+(en?'Full hem':'नीचे का पूरा घेरा')+': '+hem.toFixed(1)+' in</div>'+
- '<div class="line">'+guide+'</div>';
+ '<div class="line">'+(en?'Full hem':'नीचे का पूरा घेरा')+': '+v.hem.toFixed(1)+' in</div>'+
+ '<div class="line">'+(en?'Diagram height is scaled for display only.':'चित्र की ऊँचाई केवल दिखाने के लिए अनुपात में रखी गई है।')+'</div>';
  document.getElementById('details').innerHTML=dims;
- } else {document.getElementById('shape').setAttribute('d',paths[g]);document.getElementById('shapeText').textContent=en?'Reference only':'केवल संदर्भ';}
+} else {document.getElementById('shape').setAttribute('d',paths[g]);document.getElementById('shapeText').textContent=en?'Reference only':'केवल संदर्भ';}
  document.getElementById('output').style.display='block';document.getElementById('output').scrollIntoView({behavior:'smooth'})}
 drawFields();
 </script></body></html>
