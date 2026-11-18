@@ -65,7 +65,7 @@ function makeChart(){let g=document.getElementById('garment').value,vals=[];for(
  '<div class="line">'+(en?'Full hem':'नीचे का पूरा घेरा')+': '+v.hem.toFixed(1)+' in</div>'+
  '<div class="line">'+(en?'Diagram height is scaled for display only.':'चित्र की ऊँचाई केवल दिखाने के लिए अनुपात में रखी गई है।')+'</div>';
  document.getElementById('details').innerHTML=dims;
-} else {document.getElementById('shape').setAttribute('d',paths[g]);document.getElementById('shapeText').textContent=en?'Reference only':'केवल संदर्भ';}
+} else {document.getElementById('patternGuides').innerHTML='';document.getElementById('shapeText').setAttribute('y','130');document.getElementById('shape').setAttribute('d',paths[g]);document.getElementById('shapeText').textContent=en?'Reference only':'केवल संदर्भ';}
  document.getElementById('output').style.display='block';document.getElementById('output').scrollIntoView({behavior:'smooth'})}
 drawFields();
 </script></body></html>
