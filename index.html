@@ -12,7 +12,7 @@
 <div id="petticoatStyle" class="stylebox"><label id="styleLabel" for="skirtStyle">पेटीकोट स्टाइल</label><select id="skirtStyle" onchange="refreshPetticoatStyle()"><option value="straight">सीधा / Straight</option><option value="flared">घेरदार / Flared</option></select></div>
 <p id="validationMessage" class="error" role="alert" aria-live="polite"></p><button id="make" onclick="makeChart()">नाप का चार्ट बनाएं</button></section>
 <section class="card" id="output"><h2 id="resultTitle">आपकी नाप / Your measurements</h2><div id="details"></div><h2 id="sketchTitle">संदर्भ चित्र / Reference sketch</h2>
-<svg viewBox="0 0 320 260"><path id="shape" d="M110 25 L210 25 L250 230 L70 230 Z" fill="#f6c3da" stroke="#8d245e" stroke-width="3"/><g id="patternGuides"></g><text id="shapeText" x="160" y="130" text-anchor="middle" font-size="12" fill="#54213c">संदर्भ चित्र</text></svg>
+<svg viewBox="0 0 320 260" role="img" aria-labelledby="diagramTitle diagramDesc"><title id="diagramTitle">संदर्भ चित्र</title><desc id="diagramDesc">यह केवल संदर्भ चित्र है, प्रमाणित कटिंग पैटर्न नहीं।</desc><path id="shape" d="M110 25 L210 25 L250 230 L70 230 Z" fill="#f6c3da" stroke="#8d245e" stroke-width="3"/><g id="patternGuides"></g><text id="shapeText" x="160" y="130" text-anchor="middle" font-size="12" fill="#54213c">संदर्भ चित्र</text></svg>
 <button id="printChart" onclick="window.print()">चार्ट प्रिंट / PDF में सेव करें</button>
 <p class="note" id="caution">महत्वपूर्ण: यह अभी संदर्भ पैनल है, कपड़ा काटने का प्रमाणित पैटर्न नहीं। सही कटिंग के लिए कपड़े की चौड़ाई, सिलाई मार्जिन और पैनल/फोल्ड की जानकारी भी चाहिए। बिना दर्जी से जाँच कराए कपड़ा न काटें।</p></section>
 <section class="card"><h2 id="videos">🎥 सिलाई और कटिंग वीडियो</h2>
@@ -54,6 +54,8 @@ function makeChart(){document.getElementById('output').style.display='none';docu
   ? 'M '+leftWaist+' '+topY+' L '+rightWaist+' '+topY+' L '+rightHip+' '+hipY+' Q '+(rightHem+12)+' '+((hipY+bottomY)/2)+' '+rightHem+' '+bottomY+' L '+leftHem+' '+bottomY+' Q '+(leftHem-12)+' '+((hipY+bottomY)/2)+' '+leftHip+' '+hipY+' Z'
   : 'M '+leftWaist+' '+topY+' L '+rightWaist+' '+topY+' L '+rightHip+' '+hipY+' L '+rightHem+' '+bottomY+' L '+leftHem+' '+bottomY+' L '+leftHip+' '+hipY+' Z';
  document.getElementById('shape').setAttribute('d',d);
+ document.getElementById('diagramTitle').textContent=en?'Petticoat reference diagram':'पेटीकोट का संदर्भ चित्र';
+ document.getElementById('diagramDesc').textContent=(en?'Illustrative '+(flare?'flared':'straight')+' draft only; waist '+v.waist+' inches, hip '+v.hip+' inches, length '+v.length+' inches, full hem '+v.hem+' inches. Not a verified cutting pattern.':'केवल '+(flare?'घेरदार':'सीधे')+' स्टाइल का संदर्भ चित्र; कमर '+v.waist+' इंच, हिप '+v.hip+' इंच, लंबाई '+v.length+' इंच और पूरा घेरा '+v.hem+' इंच। यह प्रमाणित कटिंग पैटर्न नहीं है।');
  document.getElementById('shapeText').setAttribute('y',midY);
  document.getElementById('shapeText').textContent=en?'Reference only':'केवल संदर्भ';
  document.getElementById('patternGuides').innerHTML=
@@ -71,7 +73,7 @@ function makeChart(){document.getElementById('output').style.display='none';docu
  '<div class="line">'+(en?'Full hem':'नीचे का पूरा घेरा')+': '+v.hem.toFixed(1)+' in</div>'+
  '<div class="line">'+(en?'Diagram height is scaled for display only.':'चित्र की ऊँचाई केवल दिखाने के लिए अनुपात में रखी गई है।')+'</div>';
  document.getElementById('details').innerHTML=dims;
-} else {document.getElementById('patternGuides').innerHTML='';document.getElementById('shapeText').setAttribute('y','130');document.getElementById('shape').setAttribute('d',paths[g]);document.getElementById('shapeText').textContent=en?'Reference only':'केवल संदर्भ';}
+} else {document.getElementById('patternGuides').innerHTML='';document.getElementById('shapeText').setAttribute('y','130');document.getElementById('shape').setAttribute('d',paths[g]);document.getElementById('shapeText').textContent=en?'Reference only':'केवल संदर्भ';document.getElementById('diagramTitle').textContent=en?'Garment reference sketch':'कपड़े का संदर्भ चित्र';document.getElementById('diagramDesc').textContent=(en?'Illustrative sketch only. Measurements: ':'केवल संदर्भ चित्र। नाप: ')+vals.map(({label,value})=>label+': '+value.toFixed(1)+' '+(en?'inches':'इंच')).join(', ')+(en?'. Not a verified cutting pattern.':'। यह प्रमाणित कटिंग पैटर्न नहीं है।');}
  document.getElementById('output').style.display='block';document.getElementById('output').scrollIntoView({behavior:'smooth'})}
 drawFields();
 </script></body></html>
